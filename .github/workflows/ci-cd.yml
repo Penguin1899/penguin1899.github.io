@@ -1,0 +1,113 @@
+name: Portfolio Site CI/CD
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate-and-build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Install Node.js dependencies
+      run: npm install
+      
+    - name: Validate YAML files
+      run: |
+        echo "Validating YAML files for syntax errors..."
+        python -c "
+        import yaml
+        import os
+        import sys
+        
+        data_dir = 'data'
+        errors = []
+        
+        if os.path.exists(data_dir):
+            for filename in os.listdir(data_dir):
+                if filename.endswith('.yml') or filename.endswith('.yaml'):
+                    filepath = os.path.join(data_dir, filename)
+                    try:
+                        with open(filepath, 'r') as f:
+                            yaml.safe_load(f)
+                        print(f'✅ {filename} - Valid YAML')
+                    except yaml.YAMLError as e:
+                        print(f'❌ {filename} - Invalid YAML: {e}')
+                        errors.append(filename)
+                    except Exception as e:
+                        print(f'❌ {filename} - Error: {e}')
+                        errors.append(filename)
+        
+        if errors:
+            print(f'YAML validation failed for: {errors}')
+            sys.exit(1)
+        else:
+            print('All YAML files are valid!')
+        "
+        
+    - name: Check Python code formatting with Black
+      run: |
+        echo "Checking Python code formatting..."
+        black --check --diff .
+        
+    - name: Lint Python code with flake8
+      run: |
+        pip install flake8
+        echo "Linting Python code..."
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=node_modules,dist
+        
+    - name: Test site generation
+      run: |
+        echo "Testing site generation..."
+        python generate_site.py
+        
+    - name: Build CSS with Tailwind
+      run: |
+        echo "Building CSS..."
+        npm run build-css || npm run build || echo "No build script found, skipping CSS build"
+        
+    - name: Validate generated HTML
+      run: |
+        echo "Validating generated HTML..."
+        if [ -f "index.html" ]; then
+          echo "✅ index.html generated successfully"
+          # Basic HTML validation - check if file contains expected structure
+          if grep -q "<html" index.html && grep -q "</html>" index.html; then
+            echo "✅ HTML structure looks valid"
+          else
+            echo "❌ HTML structure appears invalid"
+            exit 1
+          fi
+        else
+          echo "❌ index.html was not generated"
+          exit 1
+        fi
+        
+    - name: Deploy to GitHub Pages (on push to main/master)
+      if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+        exclude_assets: '.github,node_modules,data,*.mako,*.py,requirements.txt,pyproject.toml,tailwind.config.js,src'
