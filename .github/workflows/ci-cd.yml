@@ -23,7 +23,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'npm'
         
     - name: Install Python dependencies
       run: |
@@ -31,40 +30,33 @@ jobs:
         pip install -r requirements.txt
         
     - name: Install Node.js dependencies
-      run: npm install
-      
-    - name: Validate YAML files
       run: |
-        echo "Validating YAML files for syntax errors..."
-        python -c "
-        import yaml
-        import os
-        import sys
+        if [ -f "package.json" ]; then
+          npm install
+        else
+          echo "No package.json found, skipping npm install"
+        fi
+      
+    - name: Validate YAML files with yamllint
+      run: |
+        echo "Installing yamllint..."
+        pip install yamllint
         
-        data_dir = 'data'
-        errors = []
+        echo "Validating YAML files for syntax and style..."
         
-        if os.path.exists(data_dir):
-            for filename in os.listdir(data_dir):
-                if filename.endswith('.yml') or filename.endswith('.yaml'):
-                    filepath = os.path.join(data_dir, filename)
-                    try:
-                        with open(filepath, 'r') as f:
-                            yaml.safe_load(f)
-                        print(f'✅ {filename} - Valid YAML')
-                    except yaml.YAMLError as e:
-                        print(f'❌ {filename} - Invalid YAML: {e}')
-                        errors.append(filename)
-                    except Exception as e:
-                        print(f'❌ {filename} - Error: {e}')
-                        errors.append(filename)
+        # Run yamllint on data directory
+        if [ -d "data" ]; then
+          yamllint data/
+          echo "✅ All YAML files in data/ directory are valid!"
+        else
+          echo "⚠️  data/ directory not found, skipping YAML validation"
+        fi
         
-        if errors:
-            print(f'YAML validation failed for: {errors}')
-            sys.exit(1)
-        else:
-            print('All YAML files are valid!')
-        "
+        # Also validate workflow files
+        if [ -d ".github/workflows" ]; then
+          yamllint .github/workflows/
+          echo "✅ GitHub workflow YAML files are valid!"
+        fi
         
     - name: Check Python code formatting with Black
       run: |

@@ -68,15 +68,14 @@ black .
 # Check formatting without changes
 black --check --diff .
 
-# Validate YAML files
-python -c "
-import yaml, os
-for f in os.listdir('data'):
-    if f.endswith('.yml'):
-        with open(f'data/{f}') as file:
-            yaml.safe_load(file)
-        print(f'✅ {f} - Valid')
-"
+# Validate YAML files with yamllint
+yamllint data/
+
+# Validate specific file
+yamllint data/personal.yml
+
+# Validate with custom config
+yamllint -c .yamllint.yml data/
 ```
 
 ### CSS Development (if Node.js is available)
@@ -111,8 +110,8 @@ python generate_site.py
 ```bash
 source venv/bin/activate
 
-# Check YAML syntax
-python -c "import yaml, os; [yaml.safe_load(open(f'data/{f}')) for f in os.listdir('data') if f.endswith('.yml')]"
+# Check YAML syntax and style
+yamllint data/
 
 # Check Python formatting
 black --check .

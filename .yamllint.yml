@@ -1,0 +1,54 @@
+# yamllint configuration file
+# This file defines the rules for YAML linting in the project
+
+extends: default
+
+rules:
+  # Allow longer lines for readability
+  line-length:
+    max: 120
+    level: warning
+
+  # Enforce consistent indentation
+  indentation:
+    spaces: 2
+    indent-sequences: true
+    check-multi-line-strings: false
+
+  # Comments formatting
+  comments:
+    min-spaces-from-content: 1
+    require-starting-space: true
+
+  # Boolean values
+  truthy:
+    allowed-values: ['true', 'false', 'yes', 'no']
+    check-keys: true
+
+  # Document start/end markers
+  document-start:
+    present: false  # Allow files without ---
+
+  # Empty lines
+  empty-lines:
+    max: 2
+    max-start: 0
+    max-end: 1
+
+  # Brackets and braces
+  brackets:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+
+  # Trailing spaces
+  trailing-spaces: enable
+
+  # Key duplicates
+  key-duplicates: enable
+
+  # Octal values
+  octal-values: enable
