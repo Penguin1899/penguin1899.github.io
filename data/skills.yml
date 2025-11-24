@@ -1,0 +1,49 @@
+categories:
+  - name: "Programming Languages"
+    items:
+      - name: "Python"
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+
+  - name: "Public Clouds"
+    items:
+      - name: "AWS"
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
+      - name: "Azure"
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg"
+
+  - name: "Container and Orchestration"
+    items:
+      - name: "Docker"
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
+      - name: "Kubernetes"
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg"
+
+  - name: "Infrastructure as Code"
+    items:
+      - name: "Terraform"
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg"
+      - name: "Pulumi"
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pulumi/pulumi-original.svg"
+      - name: "Cloud Custodian"
+        icon: "https://camo.githubusercontent.com/fc814263c4a2b3664bfe2e8a6e8352faf28124fa20d849c26b6095dee87ecd63/68747470733a2f2f636c6f7564637573746f6469616e2e696f2f696d672f6c6f676f5f6361706f6e655f64657665785f636c6f75645f637573746f6469616e2e737667"
+
+  - name: "CI/CD Tools"
+    items:
+      - name: "Bamboo"
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bamboo/bamboo-original.svg"
+      - name: "Jenkins"
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg"
+      - name: "GitLab CI"
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gitlab/gitlab-original.svg"
+
+  - name: "Config / Server Management"
+    items:
+      - name: "Anisble"
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ansible/ansible-original.svg"
+
+  - name: "System Administration"
+    items:
+      - name: "Linux"
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg"
+      - name: "Bash"
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg"

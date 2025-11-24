@@ -1,0 +1,55 @@
+companies:
+  - name: "Zscaler"
+    projects:
+      - title: "CI-CD Pipelines"
+        period: "2021-25"
+        description: "CI/CD pipelines built on bamboo, Jenkins and GitLab"
+        technologies:
+          - name: "Bamboo"
+            color: "bg-blue-100 text-blue-700"
+          - name: "Jenkins"
+            color: "bg-gray-100 text-red-700"
+          - name: "GitLab CI"
+            color: "bg-yellow-100 text-orange-700"
+
+      - title: "Release Overview Dashboard"
+        period: "2021-25"
+        description: "Dashboard built using python's flask for routes, html, css and bootstrap to show us verison info of all releases happening."
+        technologies:
+          - name: "Python"
+            color: "bg-green-100 text-green-700"
+          - name: "HTML"
+            color: "bg-orange-100 text-orange-700"
+          - name: "Bootstrap"
+            color: "bg-purple-100 text-purple-700"
+
+      - title: "Slack Self Serve Tool"
+        period: "2024"
+        description: "Built a slack tool to connect slack to CI systems for giving developers the ability to build anytime, from anywhere. This was a initiative to increase dev productivity by giving them a self-serve option."
+        technologies:
+          - name: "React"
+            color: "bg-blue-100 text-blue-700"
+          - name: "Slack API"
+            color: "bg-gray-100 text-purple-700"
+          - name: "Python"
+            color: "bg-green-100 text-green-700"
+        links:
+          - name: "GitHub"
+            url: "#"
+          - name: "Demo"
+            url: "#"
+
+      - title: "AWS Explorer"
+        period: "2024"
+        description: |
+          An app built using AWS boto3 for backend and streamlit for frontend to give us details about our AWS account.
+
+          The tool gave an overview about cost usage, quota reports, and resource specific reports such as filter old EC2, unattached EBS, unused EIP (EIP with no traffic) etc.
+          The app also gave option to cleanup resources based on reports generated.
+        technologies:
+          - name: "AWS"
+            color: "bg-orange-100 text-orange-700"
+          - name: "Python"
+            color: "bg-green-100 text-green-700"
+          - name: "Streamlit"
+            color: "bg-pink-100 text-pink-700"
