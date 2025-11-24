@@ -11,7 +11,7 @@ jobs:
       - "Looked after public cloud (AWS) quota and cost via custom automation"
       - "Built self-serve tools and dashboards for developers to give them more insights and control on software releases"
       - "Worked on L1, L2 system debugging to ensure build agents are always up and healthy"
-  
+
   - title: "Intern - DevOps @ Zscaler"
     period: "Jan 2021 - Aug 2021"
     responsibilities:
