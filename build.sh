@@ -23,8 +23,22 @@ echo "📥 Installing Python dependencies..."
 pip install -r requirements.txt
 
 # Generate the site
-echo "🏗️  Generating site from templates and data..."
+echo "🏗️  Generating website from templates and data..."
 python generate_site.py
+
+# Generate the resume PDF
+echo "📄 Generating resume PDF..."
+if command -v pdflatex &> /dev/null; then
+    python generate_resume.py
+    if [ -f "resume.pdf" ]; then
+        echo "✅ Resume PDF generated successfully!"
+    else
+        echo "⚠️  Resume PDF generation failed - check LaTeX installation"
+    fi
+else
+    echo "⚠️  pdflatex not found. Skipping resume PDF generation."
+    echo "💡 Install LaTeX (MacTeX/MiKTeX/texlive) to enable PDF generation."
+fi
 
 # Check if Node.js is available for CSS building
 if command -v npm &> /dev/null; then
@@ -36,9 +50,9 @@ else
     echo "💡 Install Node.js to enable CSS compilation, or use existing CSS."
 fi
 
-# Validate the generated HTML
+# Validate the generated outputs
 if [ -f "index.html" ]; then
-    echo "✅ Site generated successfully!"
+    echo "✅ Website generated successfully!"
     echo "📁 Output: index.html"
     
     # Basic validation
@@ -55,4 +69,8 @@ fi
 echo ""
 echo "🎉 Build completed!"
 echo "📖 Open index.html in your browser to view the site"
-echo "🔄 Run 'python generate_site.py' after updating data files"
+if [ -f "resume.pdf" ]; then
+    echo "� Open resume.pdf to view your resume"
+fi
+echo "�🔄 Run 'python generate_site.py' after updating data files"
+echo "🔄 Run 'python generate_resume.py' after updating resume data"
