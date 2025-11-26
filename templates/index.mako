@@ -15,15 +15,39 @@
   <body class="text-gray-800 font-sans scroll-smooth">
     <!-- Navbar -->
     <header class="fixed top-0 w-full bg-white shadow z-50">
-      <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
-        <h1 class="text-xl font-bold">${personal['name']}</h1>
-        <ul class="flex space-x-6 text-sm font-medium">
-          <li><a href="#about" class="scroll-smooth hover:text-blue-500">About</a></li>
-          <li><a href="#skills" class="scroll-smooth hover:text-blue-500">Skills</a></li>
-          <li><a href="#experience" class="scroll-smooth hover:text-blue-500">Experience</a></li>
-          <li><a href="#projects" class="scroll-smooth hover:text-blue-500">Projects</a></li>
-          <li><a href="#contact" class="scroll-smooth hover:text-blue-500">Contact</a></li>
-        </ul>
+      <nav class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+          <h1 class="text-xl font-bold">${personal['name']}</h1>
+          
+          <!-- Desktop menu (hidden on mobile) -->
+          <ul class="hidden md:flex space-x-6 text-sm font-medium">
+            <li><a href="#about" class="scroll-smooth hover:text-blue-500 transition-colors">About</a></li>
+            <li><a href="#skills" class="scroll-smooth hover:text-blue-500 transition-colors">Skills</a></li>
+            <li><a href="#experience" class="scroll-smooth hover:text-blue-500 transition-colors">Experience</a></li>
+            <li><a href="#projects" class="scroll-smooth hover:text-blue-500 transition-colors">Projects</a></li>
+            <li><a href="#contact" class="scroll-smooth hover:text-blue-500 transition-colors">Contact</a></li>
+          </ul>
+          
+          <!-- Mobile hamburger button -->
+          <button class="md:hidden p-2 text-gray-600 hover:text-blue-500 focus:outline-none" 
+                  onclick="toggleMobileMenu()" 
+                  aria-label="Toggle mobile menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Mobile menu (hidden by default) -->
+        <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4 border-t border-gray-200">
+          <ul class="flex flex-col space-y-3 text-sm font-medium pt-4">
+            <li><a href="#about" class="block py-2 px-3 hover:bg-blue-50 hover:text-blue-500 rounded transition-colors" onclick="closeMobileMenu()">About</a></li>
+            <li><a href="#skills" class="block py-2 px-3 hover:bg-blue-50 hover:text-blue-500 rounded transition-colors" onclick="closeMobileMenu()">Skills</a></li>
+            <li><a href="#experience" class="block py-2 px-3 hover:bg-blue-50 hover:text-blue-500 rounded transition-colors" onclick="closeMobileMenu()">Experience</a></li>
+            <li><a href="#projects" class="block py-2 px-3 hover:bg-blue-50 hover:text-blue-500 rounded transition-colors" onclick="closeMobileMenu()">Projects</a></li>
+            <li><a href="#contact" class="block py-2 px-3 hover:bg-blue-50 hover:text-blue-500 rounded transition-colors" onclick="closeMobileMenu()">Contact</a></li>
+          </ul>
+        </div>
       </nav>
     </header>
 
@@ -33,9 +57,17 @@
         <h2 class="text-4xl md:text-6xl font-bold mb-4">${personal['title']}</h2>
         <h3 class="text-4xl md:text-3xl font-bold mb-4">${personal['subtitle']}</h3>
         <p class="text-lg md:text-xl mb-6 text-gray-600">${personal['description']}</p>
-        <a href="#projects" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">
-          View My Work
-        </a>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <a href="#projects" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">
+            View My Work
+          </a>
+          <a href="https://github.com/Penguin1899/penguin1899.github.io/releases/download/latest-resume/resume.pdf" target="_blank" class="inline-flex items-center px-6 py-3 bg-gray-800 text-white rounded-full hover:bg-gray-900 transition">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            Download Resume
+          </a>
+        </div>
       </div>
     </section>
 
@@ -190,6 +222,37 @@
       
       
             
+    <!-- Mobile Menu JavaScript -->
+    <script>
+      function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+      }
+      
+      function closeMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.add('hidden');
+      }
+      
+      // Close mobile menu when clicking outside
+      document.addEventListener('click', function(event) {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const hamburgerButton = event.target.closest('button[onclick="toggleMobileMenu()"]');
+        
+        if (!hamburgerButton && !mobileMenu.contains(event.target)) {
+          mobileMenu.classList.add('hidden');
+        }
+      });
+      
+      // Close mobile menu on window resize to desktop size
+      window.addEventListener('resize', function() {
+        if (window.innerWidth >= 768) { // md breakpoint
+          const mobileMenu = document.getElementById('mobile-menu');
+          mobileMenu.classList.add('hidden');
+        }
+      });
+    </script>
+    
     <!-- Uncomment this to enable flowbite -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script> -->
     </body>

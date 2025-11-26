@@ -9,6 +9,9 @@ name: Portfolio Site CI/CD
 jobs:
   validate-and-build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      metadata: read
 
     steps:
       - name: Checkout code
@@ -74,6 +77,18 @@ jobs:
           echo "Testing site generation..."
           python generate_site.py
 
+      - name: Install LaTeX
+        run: |
+          echo "Installing LaTeX..."
+          sudo apt-get update
+          sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra
+
+      - name: Generate resume PDF
+        run: |
+          echo "Generating resume PDF..."
+          python generate_resume.py
+          echo "✅ Resume PDF generated successfully"
+
       - name: Build CSS with Tailwind
         run: |
           echo "Building CSS..."
@@ -96,10 +111,23 @@ jobs:
             exit 1
           fi
 
-      - name: Deploy to GitHub Pages (on push to main/master)
+      - name: Upload resume PDF as artifact
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
-        uses: peaceiris/actions-gh-pages@v3
+        uses: actions/upload-artifact@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
-          exclude_assets: '.github,node_modules,data,*.mako,*.py,requirements.txt,pyproject.toml,tailwind.config.js,src'
+          name: resume-pdf
+          path: resume.pdf
+          retention-days: 90
+
+      - name: Create/Update Release with Resume PDF
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: latest-resume
+          name: Latest Resume
+          body: Auto-generated resume PDF from latest commit
+          files: resume.pdf
+          prerelease: false
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

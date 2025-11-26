@@ -136,7 +136,7 @@ def main():
     print("=" * 40)
 
     # Define file paths
-    template_file = "index.mako"
+    template_file = "templates/index.mako"
     output_file = "index.html"
     data_dir = "data"
 
