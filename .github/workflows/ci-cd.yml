@@ -76,18 +76,6 @@ jobs:
           echo "Testing site generation..."
           python generate_site.py
 
-      - name: Install LaTeX
-        run: |
-          echo "Installing LaTeX..."
-          sudo apt-get update
-          sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra
-
-      - name: Generate resume PDF
-        run: |
-          echo "Generating resume PDF..."
-          python generate_resume.py
-          echo "✅ Resume PDF generated successfully"
-
       - name: Build CSS with Tailwind
         run: |
           echo "Building CSS..."
@@ -110,13 +98,19 @@ jobs:
             exit 1
           fi
 
-      - name: Upload resume PDF as artifact
+      - name: Install LaTeX
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
-        uses: actions/upload-artifact@v4
-        with:
-          name: resume-pdf
-          path: resume.pdf
-          retention-days: 90
+        run: |
+          echo "Installing LaTeX..."
+          sudo apt-get update
+          sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra
+
+      - name: Generate resume PDF
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        run: |
+          echo "Generating resume PDF..."
+          python generate_resume.py
+          echo "✅ Resume PDF generated successfully"
 
       - name: Create/Update Release with Resume PDF
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
